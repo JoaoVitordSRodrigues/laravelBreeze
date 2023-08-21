@@ -24,21 +24,30 @@
                         <tbody>
                         @foreach($clientes as $cliente)
                             <tr>
-                                <td class="p-3 bg-slate-100 border border-blue-300">{{$cliente->nome}}</td>
-                                <td class="p-3 bg-slate-100 border border-blue-300">{{$cliente->endereco}}</td>
-                                <td class="p-3 bg-slate-100 border border-blue-300">{{$cliente->bairro}}</td>
-                                <td class="p-3 bg-slate-100 border border-blue-300">{{$cliente->cep}}</td>
-                                <td class="p-3 bg-slate-100 border border-blue-300">{{$cliente->cidade}}</td>
-                                <td class="p-3 bg-slate-100 border border-blue-300">{{$cliente->estado}}</td>
-                                <td class="p-3 bg-slate-100 border border-blue-300">
-                                <a href="{{url("editar/$cliente->id")}}" class="hover:bg-blue-500 transition-all p-3 rounded">Editar</a>
-                                <form action="excluir/{{$cliente->id}}" method="POST">
-                                    @csrf
-                                    @method("delete")
-                                    <button type="submit" href="{{url("excluir/$cliente->id")}}" class="hover:bg-red-500 transition-all p-3 rounded">Excluir</button>
-                                </form>
-                            </td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 text-center">{{$cliente->nome}}</td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 text-center">{{$cliente->endereco}}</td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 text-center">{{$cliente->bairro}}</td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 text-center">{{$cliente->cep}}</td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 text-center">{{$cliente->cidade}}</td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 text-center">{{$cliente->estado}}</td>
+                                <td class="p-3 bg-slate-100 border border-blue-300 flex flex-col items-center">
+                                    <a href="{{url("editar/$cliente->id")}}" class="bg-blue-500 transition-all p-3 rounded">Editar</a>
+                                    <div class="h-2"></div> <!-- Espaço vertical -->
+                                    <form action="excluir/{{$cliente->id}}" method="POST">
+                                        @csrf
+                                        @method("delete")
+                                        <button type="button" class="bg-red-500 transition-all p-3 rounded" onclick="confirmExcluir()">Excluir</button>
+                                    </form>
+                                </td>
                             </tr>
+                            <script>
+                                function confirmExcluir() {
+                                    if (confirm("Tem certeza que deseja excluir este cadastro?")) {
+                                        // Submeta o formulário para realizar a exclusão
+                                        event.target.closest("form").submit();
+                                    }
+                                }
+                            </script>
                         @endforeach
                         </tbody>
                     </table>

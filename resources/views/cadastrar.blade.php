@@ -39,17 +39,71 @@
                             <x-input-label for="cidade" :value="__('Cidade')" />
                             <x-text-input id="cidade" class="block mt-1 w-full" type="text" name="cidade" :value="old('cidade')" required/>
                         </div>
-
+                        <!--Opções dos estados do combobox-->
+                        @php
+                        $estados = [
+                            'AC' => 'Acre',
+                            'AL' => 'Alagoas',
+                            'AP' => 'Amapá',
+                            'AM' => 'Amazonas',
+                            'BA' => 'Bahia',
+                            'CE' => 'Ceará',
+                            'DF' => 'Distrito Federal',
+                            'ES' => 'Espírito Santo',
+                            'GO' => 'Goiás',
+                            'MA' => 'Maranhão',
+                            'MT' => 'Mato Grosso',
+                            'MS' => 'Mato Grosso do Sul',
+                            'MG' => 'Minas Gerais',
+                            'PA' => 'Pará',
+                            'PB' => 'Paraíba',
+                            'PR' => 'Paraná',
+                            'PE' => 'Pernambuco',
+                            'PI' => 'Piauí',
+                            'RJ' => 'Rio de Janeiro',
+                            'RN' => 'Rio Grande do Norte',
+                            'RS' => 'Rio Grande do Sul',
+                            'RO' => 'Rondônia',
+                            'RR' => 'Roraima',
+                            'SC' => 'Santa Catarina',
+                            'SP' => 'São Paulo',
+                            'SE' => 'Sergipe',
+                            'TO' => 'Tocantins'
+                        ];
+                        @endphp
                         <div class="mt-4">
                             <x-input-label for="estado" :value="__('Estado')" />
-                            <x-text-input id="estado" class="block mt-1 w-full" type="text" name="estado" :value="old('estado')" required/>
+                            <select id="estado" name="estado" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <option value="" disabled selected>Selecione um estado</option>
+                                @foreach ($estados as $sigla => $nome)
+                                    <option value="{{ $sigla }}" {{ old('estado') === $sigla ? 'selected' : '' }}>{{ $nome }}</option>
+                                @endforeach
+                            </select>
                         </div>
-
+                    
                         <div class="flex items-center justify-end mt-4 blue">
-
-                            <x-primary-button class="bg-blue-500 transition-all p-3 rounded">
+                            <x-primary-button class="bg-blue-500 transition-all p-3 rounded" onclick="verificarCampos()">
                                 {{ __('Cadastrar') }}
                             </x-primary-button>
+                            <script>
+                                function verificarCampos() {
+                                    var nome = document.getElementById('nome').value;
+                                    var endereco = document.getElementById('endereco').value;
+                                    var bairro = document.getElementById('bairro').value;
+                                    var cep = document.getElementById('cep').value;
+                                    var cidade = document.getElementById('cidade').value;
+                                    var estado = document.getElementById('estado').value;
+
+                                    if (nome && endereco && bairro && cep && cidade && estado) {
+                                        msgDadosCadastrados();
+                                    } else {
+                                        alert("Por favor, preencha todos os campos obrigatórios.");
+                                    }
+                                }
+                                function msgDadosCadastrados() {
+                                    alert("Dados cadastrados!");
+                                }
+                            </script>
                         </div>
                     </form>
                 </div>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Editar dados cadastrados') }}
         </h2>
     </x-slot>
 
@@ -40,16 +40,60 @@
                             <x-input-label for="cidade" :value="__('Cidade')" />
                             <x-text-input id="cidade" class="block mt-1 w-full" type="text" name="cidade" :value="old('cidade')" value="{{$cliente->cidade}}" required/>
                         </div>
-
+                        <!--Opções dos estados do combobox-->
+                        @php
+                        $estados = [
+                            'AC' => 'Acre',
+                            'AL' => 'Alagoas',
+                            'AP' => 'Amapá',
+                            'AM' => 'Amazonas',
+                            'BA' => 'Bahia',
+                            'CE' => 'Ceará',
+                            'DF' => 'Distrito Federal',
+                            'ES' => 'Espírito Santo',
+                            'GO' => 'Goiás',
+                            'MA' => 'Maranhão',
+                            'MT' => 'Mato Grosso',
+                            'MS' => 'Mato Grosso do Sul',
+                            'MG' => 'Minas Gerais',
+                            'PA' => 'Pará',
+                            'PB' => 'Paraíba',
+                            'PR' => 'Paraná',
+                            'PE' => 'Pernambuco',
+                            'PI' => 'Piauí',
+                            'RJ' => 'Rio de Janeiro',
+                            'RN' => 'Rio Grande do Norte',
+                            'RS' => 'Rio Grande do Sul',
+                            'RO' => 'Rondônia',
+                            'RR' => 'Roraima',
+                            'SC' => 'Santa Catarina',
+                            'SP' => 'São Paulo',
+                            'SE' => 'Sergipe',
+                            'TO' => 'Tocantins'
+                        ];
+                        @endphp
                         <div class="mt-4">
                             <x-input-label for="estado" :value="__('Estado')" />
-                            <x-text-input id="estado" class="block mt-1 w-full" type="text" name="estado" :value="old('estado')" value="{{$cliente->estado}}" required/>
+                            <select id="estado" name="estado" class="block mt-1 w-full" required>
+                                <option value="" disabled>Selecione um estado</option>
+                                @foreach ($estados as $sigla => $nome)
+                                    <!--Setando com o opção do estado ja cadastrada-->
+                                    <option value="{{ $sigla }}" {{ (old('estado') === $sigla || $cliente->estado === $sigla) ? 'selected' : '' }}>{{ $nome }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
-                            <x-primary-button class="ml-4">
+                            <x-primary-button class="ml-4" onclick="confirmEditar()">
                                 {{ __('Editar') }}
                             </x-primary-button>
+                            <script>
+                                function confirmEditar() {
+                                    if (confirm("Tem certeza que deseja editar os dados?")) {
+                                        event.target.closest("form").submit();
+                                    }
+                                }
+                            </script>
                         </div>
                     </form>
                 </div>
